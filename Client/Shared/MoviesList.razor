@@ -1,72 +1,25 @@
 ﻿@inject IJSRuntime js
 
-<input type="checkbox" @bind="displayButtons" />
-
-<GenericList List="Movies">
-    <ElementTemplate Context="movie">
-        <IndiviualMovie Movie="movie" DisplayButtons="displayButtons"
-                        DeleteMovie="DeleteMovie"></IndiviualMovie>
-    </ElementTemplate>
-</GenericList>
-
-
-<Confirmation @ref="confirmation" onCancel="onCancel" onConfirm="onConfirm">
-    <div>Do you wish to delete @movieToBeDeleted.Title?</div>
-</Confirmation>
+<div class="movies-container">
+    <GenericList List="Movies">
+        <ElementTemplate Context="movie">
+            <IndiviualMovie Movie="movie" DeleteMovie="DeleteMovie"></IndiviualMovie>
+        </ElementTemplate>
+    </GenericList>
+</div>
 
 @code {
 
-    Confirmation confirmation;
-
     [Parameter] public List<Movie> Movies { get; set; }
-
-
-    bool displayButtons = true;
-
-    Movie movieToBeDeleted;
 
     private async Task DeleteMovie(Movie movie)
     {
-        movieToBeDeleted = movie;
-        confirmation.Show();
-        //await js.MyFunction("custom message");
-        //var confirmed = await js.Confirm( $"Are you sure you want to delete {movie.Title}?");
-        //if (confirmed)
-        //{
-        //    Movies.Remove(movie);
-        //}
-    }
 
-    void onConfirm()
-    {
-        Movies.Remove(movieToBeDeleted);
-        confirmation.Hide();
-        movieToBeDeleted = null;
-
-    }
-    void onCancel()
-    {
-        confirmation.Hide();
-        movieToBeDeleted = null;
-    }
-
-    protected override void OnInitialized()
-    {
-        Console.WriteLine($"OnInitialized. Movie.Count = {Movies.Count.ToString()}");
-    }
-
-    protected override void OnParametersSet()
-    {
-        Console.WriteLine($"OnParametersSet. Movie.Count = {Movies.Count.ToString()}");
-    }
-
-    protected override void OnAfterRender(bool firstRender)
-    {
-        Console.WriteLine($"OnAfterRender.FirstRender = {Movies.Count.ToString()}");
-    }
-
-    protected override bool ShouldRender()
-    {
-        return true;
+        await js.MyFunction("custom message");
+        var confirmed = await js.Confirm($"Are you sure you want to delete {movie.Title}?");
+        if (confirmed)
+        {
+            Movies.Remove(movie);
+        }
     }
 }

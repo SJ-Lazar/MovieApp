@@ -1,26 +1,21 @@
 ﻿@page "/"
-@inject SingletonService singleton
+@page "/index"
+
 @inject IRepository repository
-<p style="color: @AppState.Color">Singleton count: @singleton.Value</p>
+
 <div>
     <h3>Movie</h3>
     <MoviesList Movies="movies" />
 </div>
 
-<button @onclick="AddNewMovie">Add new movie</button>
 
 @code{
-    [CascadingParameter] public MainLayout.AppState AppState { get; set; }
+  
     private List<Movie> movies;
 
     protected override void OnInitialized()
     {
 
         movies = repository.GetMovies();
-    }
-
-    private void AddNewMovie()
-    {
-        movies.Add(new Movie() { Title = "Jumanji", ReleaseDate = DateTime.Today });
     }
 }

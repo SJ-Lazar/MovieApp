@@ -1,21 +1,23 @@
-﻿<div>
-    <p>Title: @Movie.Title</p>
-    <p>ReleaseDate: @Movie.ReleaseDate </p>
-</div>
-@if (DisplayButtons)
-{
+﻿<div class="indiviual-movie-container">
+    <a href="@movieURL">
+        <img src="@Movie.Poster" alt="Poster" class="movie-poster"/>
+    </a>
+    <p> <a href="@movieURL">@Movie.TitleBrief</a> </p>
     <div>
-        <button @onclick="(() => DeleteMovie.InvokeAsync(Movie))">
-            Delete
-        </button>
+        <a class="btn btn-info">Edit</a>
+        <button type="button" class="btn btn-danger" @onclick="@(() => DeleteMovie.InvokeAsync(Movie))">Delete</button>
     </div>
-}
+</div>
 
 
 @code {
-
     [Parameter] public Movie Movie { get; set; }
-    [Parameter] public bool DisplayButtons { get; set; } = false;
     [Parameter] public EventCallback<Movie> DeleteMovie { get; set; }
+    private string movieURL = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        movieURL = $"movie/{Movie.Id}/{Movie.Title.Replace(" ", "-")}";
+    }
 
 }
