@@ -1,0 +1,42 @@
+﻿@typeparam TItem
+
+@if (List == null)
+{
+
+
+    @if (NullTemplate != null)
+    {
+        @NullTemplate
+    }
+    else
+    {
+        <img src="https://hackernoon.com/images/0*4Gzjgh9Y7Gu8KEtZ.gif" />
+    }
+}
+else if (List.Count == 0)
+{
+    @if (EmptyTemplate != null)
+    {
+        @EmptyTemplate
+    }
+    else
+    {
+        <text>There are no records</text>
+    }
+}
+else
+{
+  
+    @foreach (var element in List)
+    {
+        
+        @ElementTemplate(element)
+    }
+}
+
+@code {
+    [Parameter] public RenderFragment NullTemplate { get; set; }
+    [Parameter] public RenderFragment EmptyTemplate { get; set; }
+    [Parameter] public  RenderFragment<TItem> ElementTemplate { get; set; }
+    [Parameter] public List<TItem> List { get; set; }
+}
