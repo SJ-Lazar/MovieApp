@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using MovieApp.Client.Shared;
 using MovieApp.Shared.Entities;
 
 namespace MovieApp.Client.Pages
@@ -13,6 +14,8 @@ namespace MovieApp.Client.Pages
         [Inject] private SingletonService singleton { get; set; }
         [Inject] TransientService transient { get; set; }
         [Inject] private IJSRuntime js { get; set; }
+        [CascadingParameter] public MainLayout.AppState AppState { get; set; }
+      
 
         private List<Movie> movies;
 
