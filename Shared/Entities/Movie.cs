@@ -21,6 +21,7 @@ namespace MovieApp.Shared.Entities
         public string Poster { get; set; }
 
         public List<MoviesGenres> MoviesGenres { get; set; } = new List<MoviesGenres>();
+        public List<MovieActors> MovieActors { get; set; } = new List<MovieActors>();
 
         public string TitleBrief
         {

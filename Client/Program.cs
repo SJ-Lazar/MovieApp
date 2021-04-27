@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using MovieApp.Client.Helpers;
+using MovieApp.Client.Repository;
 using Tewr.Blazor.FileReader;
 
 namespace MovieApp.Client
@@ -20,6 +21,10 @@ namespace MovieApp.Client
             builder.RootComponents.Add<App>("#app");
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+            builder.Services.AddScoped<IHttpService, HttpService>();
+            builder.Services.AddScoped<IGenreRepository, GenreRepository>();
+            builder.Services.AddScoped<IPeopleRepository, PeopleRepository>();
+            builder.Services.AddScoped<IMoviesRepository, MoviesRepository>();
 
             builder.Services.AddTransient<IRepository, RepositoryInMemory>();
             builder.Services.AddFileReaderService(options => options.InitializeOnFirstCall = true);
