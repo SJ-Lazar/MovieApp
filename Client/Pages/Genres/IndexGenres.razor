@@ -1,4 +1,5 @@
 ﻿@page "/genres"
+@using System.Runtime.InteropServices
 @inject IGenreRepository genreRepository
 
 <div class="form-group">
@@ -18,8 +19,8 @@
                 @foreach (var item in Genres)
                 {
                     <tr>
-                        <td><a class="btn btn-success">Edit</a>
-                            <button class="btn btn-danger">Delete</button>
+                        <td><a class="btn btn-success" href="genre/edit/@item.Id">Edit</a>
+                            <button class="btn btn-danger" @onclick="@(() => DeleteGenres(item.Id))">Delete</button>
                         </td>
                         <td>@item.Name</td>
                     </tr>
@@ -44,5 +45,11 @@
             Console.WriteLine(e.Message);
             throw;
         }
+    }
+
+    private async Task DeleteGenres(int id)
+    {
+        await genreRepository.DeleteGenre(id);
+        Genres = await genreRepository.GetGenres();
     }
 }

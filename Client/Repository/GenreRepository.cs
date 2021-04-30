@@ -36,5 +36,31 @@ namespace MovieApp.Client.Repository
                 throw new ApplicationException(await response.GetBody());
             }
         }
+        public async Task<Genre> GetGenre(int Id)
+        {
+            var response = await _httpService.Get<Genre>($"{url}/{Id}");
+            if (!response.Success)
+            {
+                throw new ApplicationException(await response.GetBody());
+            }
+            return response.Response;
+        }
+        public async Task UpdateGenre(Genre genre)
+        {
+            var response = await _httpService.Put(url, genre);
+            if (!response.Success)
+            {
+                throw new ApplicationException(await response.GetBody());
+            }
+        }
+
+        public async Task DeleteGenre(int id)
+        {
+            var response = await _httpService.Delete($"{url}/{id}");
+            if (!response.Success)
+            {
+                throw new ApplicationException(await response.GetBody());
+            }
+        }
     }
 }

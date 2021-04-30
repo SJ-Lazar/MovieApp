@@ -1,4 +1,6 @@
 ﻿@using MovieApp.Client.Pages.People
+@inject IPeopleRepository peopleRepository
+
 <EditForm Model="Movie" OnValidSubmit="OnDataAnnotationsValidated"> 
     <DataAnnotationsValidator />
     <div class="form-group">
@@ -31,7 +33,7 @@
         </div>
     </div>
     <div class="form-group">
-        <ImageInput Label="Picture" OnSelectedImage="PosterSelected" ImageURL="@imageURL"/>
+        <InputImg Label="Picture" OnSelectedImage="PosterSelected" ImageURL="@imageURL"/>
     </div>
     <div class="form-group form-markdown">
         <InputMarkdown 
@@ -98,7 +100,7 @@
 
     private async Task<IEnumerable<Person>> SearchMethod(string searchText)
     {
-        throw new NotImplementedException();
+        return await peopleRepository.GetPeopleByName(searchText);
     }
 
     private async Task OnDataAnnotationsValidated()

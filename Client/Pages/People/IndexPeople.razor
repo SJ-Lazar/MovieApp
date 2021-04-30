@@ -5,6 +5,8 @@
     <a class="btn btn-info" href="person/create">New Person</a>
 </div>
 
+<Pagination CurrentPage="@paginationDto.Page" TotalAmountPages="totalAmountPages" SelectedPage="SelectedPage" />
+
 <GenericList List="People">
     <WholeListTemplate>
         <table class="table table-striped">
@@ -18,8 +20,8 @@
             @foreach (var item in People)
             {
                 <tr>
-                    <td><a class="btn btn-success">Edit</a>
-                        <button class="btn btn-danger">Delete</button>
+                    <td><a class="btn btn-success" href="/person/edit/@item.Id">Edit</a>
+                        <button class="btn btn-danger" @onclick="@(() => DeletePerson(item.Id))">Delete</button>
                     </td>
                     <td>@item.Name</td>
                 </tr>
@@ -30,17 +32,39 @@
 </GenericList>
 @code {
     List<Person> People;
-
+    PaginationDto paginationDto = new PaginationDto() {RecordsPerPage = 1};
+    private int totalAmountPages;
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            People = await peopleRepository.GetPeople();
+            await LoadPeople();
         }
         catch (Exception e)
         {
             Console.WriteLine(e.Message);
             throw;
         }
+    }
+
+   
+
+    private async Task LoadPeople()
+    {
+        var paginatedResponse = await peopleRepository.GetPeople(paginationDto);
+        People = paginatedResponse.Response;
+        totalAmountPages = paginatedResponse.TotalAmountPages;
+    }
+
+    private async Task SelectedPage(int page)
+    {
+        paginationDto.Page = page;
+        await LoadPeople();
+    }
+
+    private async Task DeletePerson(int id)
+    {
+        await peopleRepository.DeletePerson(id);
+        await LoadPeople();
     }
 }

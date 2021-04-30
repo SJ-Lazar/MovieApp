@@ -26,12 +26,42 @@ namespace MovieApp.Server.Controllers
             return await _context.Genres.ToListAsync();
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Genre>> Get(int id)
+        {
+            var genre = await _context.Genres.FirstOrDefaultAsync(x => x.Id == id);
+            if (genre == null) { return NotFound(); }
+            return genre;
+        }
+
         [HttpPost]
         public async Task<ActionResult> Post(Genre genre)
         {
             _context.Add(genre);
             await _context.SaveChangesAsync();
             return Ok();
+        }
+
+        [HttpPut]
+        public async Task<ActionResult> Put(Genre genre)
+        {
+            _context.Attach(genre).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            var genre = await _context.Genres.FirstOrDefaultAsync(x => x.Id == id);
+            if (genre == null)
+            {
+                return NotFound();
+            }
+
+            _context.Remove(genre);
+            await _context.SaveChangesAsync();
+            return NoContent();
         }
     }
 }

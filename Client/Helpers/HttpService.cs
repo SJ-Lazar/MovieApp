@@ -44,6 +44,14 @@ namespace MovieApp.Client.Helpers
             var response = await _httpClient.PostAsync(url, stringContent);
             return new HttpResponseWrapper<object>(null, response.IsSuccessStatusCode, response);
         }
+
+        public async Task<HttpResponseWrapper<object>> Put<T>(string url, T data)
+        {
+            var dataJson = JsonSerializer.Serialize(data);
+            var stringContent = new StringContent(dataJson, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PutAsync(url, stringContent);
+            return new HttpResponseWrapper<object>(null, response.IsSuccessStatusCode, response);
+        }
         public async Task<HttpResponseWrapper<TResponse>> Post<T, TResponse>(string url, T data)
         {
             var dataJson = JsonSerializer.Serialize(data);
@@ -60,7 +68,11 @@ namespace MovieApp.Client.Helpers
             }
             
         }
-
+        public async Task<HttpResponseWrapper<object>> Delete(string url)
+        {
+            var responseHTTP = await _httpClient.DeleteAsync(url);
+            return new HttpResponseWrapper<object>(null, responseHTTP.IsSuccessStatusCode, responseHTTP);
+        }
         private async Task<T> Deserializer<T>(HttpResponseMessage httpResponseMessage, JsonSerializerOptions options)
         {
             var responseString = await httpResponseMessage.Content.ReadAsStringAsync();

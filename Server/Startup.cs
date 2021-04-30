@@ -26,7 +26,11 @@ namespace MovieApp.Server
         {
             services.AddDbContext<ApplicationDbContext>(options
                 => options.UseSqlServer(Configuration.GetConnectionString("MovieAppConnection")));
-            
+
+            services.AddAutoMapper(typeof(Startup));
+
+            services.AddMvc().AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddControllersWithViews();
             services.AddScoped<IFileStorageService, InAppStorageService>();
             services.AddHttpContextAccessor();

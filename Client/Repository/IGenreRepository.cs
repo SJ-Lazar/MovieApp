@@ -10,5 +10,8 @@ namespace MovieApp.Client.Repository
     {
         Task CreateGenre(Genre genre);
         Task<List<Genre>> GetGenres();
+        Task<Genre> GetGenre(int Id);
+        Task UpdateGenre(Genre genre);
+        Task DeleteGenre(int id);
     }
 }
