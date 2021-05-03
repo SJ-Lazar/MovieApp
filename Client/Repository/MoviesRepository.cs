@@ -25,7 +25,6 @@ namespace MovieApp.Client.Repository
         {
             return await _httpService.GetHelper<IndexPageDto>(url);
         }
-
         public async Task<DetailsMovieDto> GetDetailsMovieDto(int id)
         {
             return await _httpService.GetHelper<DetailsMovieDto>($"{url}/{id}");

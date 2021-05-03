@@ -1,7 +1,7 @@
 ﻿@inject IJSRuntime js
 @inject IMoviesRepository moviesRepository
 
-<div class="movies-container">
+<div class="movies-container row">
     <GenericList List="Movies">
         <ElementTemplate Context="movie">
             <IndiviualMovie Movie="movie" DeleteMovie="DeleteMovie" @key="movie.Id" />
